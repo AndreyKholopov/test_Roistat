@@ -37,6 +37,7 @@ export default {
       user: {
         name: '',
         phone: '',
+        children: [],
         parent: {
           name: ''
         }
@@ -60,6 +61,7 @@ export default {
       this.user = {
         name: '',
         phone: '',
+        children: [],
         parent: {
           name: ''
         }
@@ -68,11 +70,10 @@ export default {
     saveModal () {
       if (this.user.parent.name === '') {
         delete this.user.parent
-        this.user.children = null
+        this.user.children = []
         this.$emit('add', this.user)
       } else {
         let tempUser = this.arrayOfUsers.find(el => el.name === this.user.parent.name)
-        if (tempUser.children === null) tempUser.children = []
         tempUser.children.push({
           name: this.user.name,
           phone: this.user.phone
