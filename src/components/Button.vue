@@ -21,5 +21,6 @@ export default {
   border: 1px solid black;
   border-radius: 15px;
   padding: 8px 15px;
+  cursor: pointer;
 }
 </style>
