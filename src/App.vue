@@ -1,10 +1,10 @@
 <template>
   <div class="test__wrapper">
-    <test-modal-add-user :showAddUserModal="showAddUserModal" :arrayOfUsers="persons" @add="addNewPerson" @save="saveInLocalStorage" @close="showAddUserModal = false"/>
+    <test-modal-add-user :showAddUserModal="showAddUserModal" :arrayOfUsers="sortingPersons" @add="addNewPerson" @save="saveInLocalStorage" @close="showAddUserModal = false"/>
 
     <test-button class="test__button" textButton='Добавить' @clickOnButton='openModal' />
 
-    <test-table class="test__table" :unitsArray='persons'/>
+    <test-table class="test__table" :unitsArray='sortingPersons' @sorting="changeSorting"/>
   </div>
 </template>
 
@@ -29,8 +29,25 @@ export default {
 
   data () {
     return {
+      sortingValue: null,
       showAddUserModal: false,
       persons: []
+    }
+  },
+
+  computed: {
+    sortingPersons () {
+      if (this.sortingValue === null) return this.persons
+      const tempArrayOfPersons = this.persons
+      return tempArrayOfPersons.sort((a, b) => {
+        if (a[this.sortingValue] > b[this.sortingValue]) {
+          return 1
+        }
+        if (a[this.sortingValue] < b[this.sortingValue]) {
+          return -1
+        }
+        return 0
+      })
     }
   },
 
@@ -45,6 +62,9 @@ export default {
     saveInLocalStorage (value) {
       localStorage.setItem('tableTestRoistat', JSON.stringify(value))
       this.$forceUpdate()
+    },
+    changeSorting (sortingValue) {
+      this.sortingValue = sortingValue
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <table class="table">
     <tr>
-      <th class="table__header">Имя</th>
-      <th class="table__header">Телефон</th>
+      <th @click="changeSorting('name')" class="table__header">Имя</th>
+      <th @click="changeSorting('phone')" class="table__header">Телефон</th>
     </tr>
 
     <template v-for="(unit, unitIndex) in unitsArray">
@@ -32,6 +32,12 @@ export default {
         return []
       }
     }
+  },
+
+  methods: {
+    changeSorting (sortingValue) {
+      this.$emit('sorting', sortingValue)
+    }
   }
 }
 </script>
@@ -44,6 +50,9 @@ export default {
 .table__item {
   border: 1px solid black;
   padding: 4px 15px;
+}
+.table__header {
+  cursor: pointer;
 }
 .table__children div {
   margin-left: 20px;
