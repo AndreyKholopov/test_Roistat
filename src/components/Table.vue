@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'table',
+  name: 'users-table',
 
   props: {
     unitsArray: {

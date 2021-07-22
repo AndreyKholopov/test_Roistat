@@ -1,31 +1,45 @@
 <template>
   <div class="test__wrapper">
-    <test-button class="test__button" textButton='Добавить' />
+    <test-modal-add-user :showAddUserModal="showAddUserModal" @save="addNewPerson" @close="showAddUserModal = false"/>
 
-    <test-table class="test__table" :unitsArray='mockPersons'/>
+    <test-button class="test__button" textButton='Добавить' @clickOnButton='openModal' />
+
+    <test-table class="test__table" :unitsArray='persons'/>
   </div>
 </template>
 
 <script>
 import Button from './components/Button.vue'
 import Table from './components/Table.vue'
+import ModalAddUser from './components/ModalAddUser.vue'
 
 export default {
   name: 'test-roistat',
 
   components: {
     'test-button': Button,
-    'test-table': Table
+    'test-table': Table,
+    'test-modal-add-user': ModalAddUser
   },
 
   data () {
     return {
-      mockPersons: [
+      showAddUserModal: false,
+      persons: [
         {
           name: 'Марина',
           phone: '+7 915 222 22 22'
         }
       ]
+    }
+  },
+
+  methods: {
+    openModal () {
+      this.showAddUserModal = true
+    },
+    addNewPerson (newPerson) {
+      this.persons.push(newPerson)
     }
   }
 }

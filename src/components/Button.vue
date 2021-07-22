@@ -1,15 +1,21 @@
 <template>
-  <button class="button">{{ textButton }}</button>
+  <button class="button" @click="clickOnButton">{{ textButton }}</button>
 </template>
 
 <script>
 export default {
-  name: 'button',
+  name: 'page-button',
 
   props: {
     textButton: {
       type: String,
       default: ''
+    }
+  },
+
+  methods: {
+    clickOnButton () {
+      this.$emit('clickOnButton')
     }
   }
 }
