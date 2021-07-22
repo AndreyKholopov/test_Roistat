@@ -1,7 +1,10 @@
 <template>
   <label>
     <p>{{ labelName }}</p>
-    <input type="text" :value="value" @input="handleInput">
+    <select :value="value" @input="handleInput">
+      <option value=""></option>
+      <option v-for="(option, optionIndex) in optionsArray" :key="optionIndex">{{ option.name }}</option>
+    </select>
   </label>
 </template>
 
@@ -17,6 +20,12 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    optionsArray: {
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
 
@@ -37,7 +46,7 @@ label {
 label p {
   margin: 0;
 }
-label input {
-  width: 192px;
+label select {
+  width: 200px;
 }
 </style>

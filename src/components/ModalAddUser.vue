@@ -3,6 +3,7 @@
     <form class="form" slot="body">
       <test-input class="form__input" labelName="Имя" v-model="user.name" />
       <test-input class="form__input" labelName="Телефон" v-model="user.phone" />
+      <test-select class="form__input" labelName="Начальник" :optionsArray="arrayOfUsers" v-model="user.parent.name" />
     </form>
 
     <test-button slot="footer" textButton='Сохранить' @clickOnButton="saveModal" />
@@ -13,6 +14,7 @@
 import Button from './Button.vue'
 import Modal from './Modal.vue'
 import Input from './Input.vue'
+import Select from './Select.vue'
 
 export default {
   name: 'modal-add-user',
@@ -21,6 +23,12 @@ export default {
     showAddUserModal: {
       type: Boolean,
       default: false
+    },
+    arrayOfUsers: {
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
 
@@ -28,7 +36,10 @@ export default {
     return {
       user: {
         name: '',
-        phone: ''
+        phone: '',
+        parent: {
+          name: ''
+        }
       }
     }
   },
@@ -36,7 +47,8 @@ export default {
   components: {
     'test-button': Button,
     'test-modal': Modal,
-    'test-input': Input
+    'test-input': Input,
+    'test-select': Select
   },
 
   methods: {
@@ -47,11 +59,26 @@ export default {
     clearUser () {
       this.user = {
         name: '',
-        phone: ''
+        phone: '',
+        parent: {
+          name: ''
+        }
       }
     },
     saveModal () {
-      this.$emit('save', this.user)
+      if (this.user.parent.name === '') {
+        delete this.user.parent
+        this.user.children = null
+        this.$emit('add', this.user)
+      } else {
+        let tempUser = this.arrayOfUsers.find(el => el.name === this.user.parent.name)
+        if (tempUser.children === null) tempUser.children = []
+        tempUser.children.push({
+          name: this.user.name,
+          phone: this.user.phone
+        })
+        this.$emit('save', this.arrayOfUsers)
+      }
       this.closeModal()
     }
   }

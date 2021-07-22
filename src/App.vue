@@ -1,6 +1,6 @@
 <template>
   <div class="test__wrapper">
-    <test-modal-add-user :showAddUserModal="showAddUserModal" @save="addNewPerson" @close="showAddUserModal = false"/>
+    <test-modal-add-user :showAddUserModal="showAddUserModal" :arrayOfUsers="persons" @add="addNewPerson" @save="saveInLocalStorage" @close="showAddUserModal = false"/>
 
     <test-button class="test__button" textButton='Добавить' @clickOnButton='openModal' />
 
@@ -40,7 +40,11 @@ export default {
     },
     addNewPerson (newPerson) {
       this.persons.push(newPerson)
-      localStorage.setItem('tableTestRoistat', JSON.stringify(this.persons))
+      this.saveInLocalStorage(this.persons)
+    },
+    saveInLocalStorage (value) {
+      localStorage.setItem('tableTestRoistat', JSON.stringify(value))
+      this.$forceUpdate()
     }
   }
 }
