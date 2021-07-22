@@ -22,15 +22,15 @@ export default {
     'test-modal-add-user': ModalAddUser
   },
 
+  created () {
+    const localStorageTableData = localStorage.getItem('tableTestRoistat')
+    this.persons = localStorageTableData ? JSON.parse(localStorageTableData) : []
+  },
+
   data () {
     return {
       showAddUserModal: false,
-      persons: [
-        {
-          name: 'Марина',
-          phone: '+7 915 222 22 22'
-        }
-      ]
+      persons: []
     }
   },
 
@@ -40,6 +40,7 @@ export default {
     },
     addNewPerson (newPerson) {
       this.persons.push(newPerson)
+      localStorage.setItem('tableTestRoistat', JSON.stringify(this.persons))
     }
   }
 }
